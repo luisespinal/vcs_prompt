@@ -7,6 +7,10 @@ function ___fubar___() {
 	exit -1
 }
 
+function ___in_git_or_die___() {
+	git branch > /dev/null; ST=$?; if [ $ST -ne 0 ]; then exit $ST; fi;
+}
+
 function get_upstream() {
 	git branch > /dev/null; ST=$?; if [ $ST -ne 0 ]; then exit $ST; fi;
 
@@ -49,7 +53,7 @@ function ___match_remote_from_suffix___() {
 	echo ${upstream}	
 }
 
-function update_branch() {
+function update() {
 	git branch > /dev/null; ST=$?; if [ $ST -ne 0 ]; then exit $ST; fi;
 	
 	local remote=${1}
@@ -79,17 +83,20 @@ function update_branch() {
 }
 
 function pwd_branch() {
+	___in_git_or_die___
+
 	git branch > /dev/null; ST=$?; if [ $ST -ne 0 ]; then exit $ST; fi;
 
 	git branch | grep '^\*' | tr -d '*' | tr -d '[:space:]'
 }
 
 function mk_branch() {
-	echo "hi"
+	___in_git_or_die___
+	git branch ${*} && git checkout ${1}
 }
 
 function cd_branch() {
-	git branch > /dev/null; ST=$?; if [ $ST -ne 0 ]; then exit $ST; fi;
+	___in_git_or_die___
 
 	local branch="${1}"
 	
@@ -125,4 +132,13 @@ function cd_branch() {
 }
 
 
+function rollback() {
+	___in_git_or_die___
+
+	local branch="${1}"
+	branch="${branch:-$(get_upstream)}"
+	
+	git rebase --abort 
+	git reset --hard ${branch}
+}
 
