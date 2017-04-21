@@ -1,8 +1,8 @@
  export TERM=xterm-256color
 
-. ${HOME}/.ctrl.sh
+. ${HOME}/.ctrl
 
-. ${HOME}/.vcsutils.sh
+. ${HOME}/.vcsutils
 
 export OLD_PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]\n\$"
 
