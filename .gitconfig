@@ -1,0 +1,89 @@
+[user]
+    name = lespinal
+    email = luis.espinal@vertivco.com
+[alias]
+    lg  = log --color --graph                     --pretty=tformat:'%Cgreen%cI%Creset %Cred%h%Creset %C(magenta)%<(10,trunc)%cn%Creset %s -%C(yellow)%d%Creset'     
+    lgc = log --color --graph --date-order        --pretty=tformat:'%Cgreen%cI%Creset %Cred%h%Creset %C(magenta)%<(10,trunc)%cn%Creset %s -%C(yellow)%d%Creset'     
+    lga = log --color --graph --author-date-order --pretty=tformat:'%Cgreen%aI%Creset %Cred%h%Creset %C(magenta)%<(10,trunc)%cn%Creset %s -%C(yellow)%d%Creset'     
+    llc = log --color --date-order                --pretty=tformat:'%C(yellow)%aI%Creset|%C(cyan)%cI%Creset|%Cred%h%Creset|%C(magenta)%<(10,trunc)%cn%Creset|%<(120,trunc)%f|%C(yellow)%d%Creset|' 
+    lla = log --color --author-date-order         --pretty=tformat:'%C(yellow)%aI%Creset|%C(cyan)%cI%Creset|%Cred%h%Creset|%C(magenta)%<(10,trunc)%cn%Creset|%<(120,trunc)%f|%C(yellow)%d%Creset|' 
+    ll  = log         --author-date-order         --pretty=tformat:'%aI|%cI%|%H|%<(10,trunc)%cn|%<(120,trunc)%s|%d|%ae|%ce|%P' 
+    
+    llf  = log         --author-date-order         --pretty=tformat:'author:|%aI|%ae|%<(60,trunc)%f|%n   commit:|%ce|%cI|%n   hash:|%H|%n   ref:|%d|%n' 
+    
+    fingerprint = "!f(){ (\
+                            echo "=== refs ==="; \
+                            git show-ref -d | sort | sed 's|^|  |';  \
+                            echo "=== tags ==="; \
+                            git show-ref -d --tags | sort | sed 's|^|  |'; \
+                            echo "=== log ==="; \
+                            git llf | sed 's|^|  |'; \
+                    ) }; f"
+    
+    pr     = pull --all --rebase --verbose 
+    rbcon  = rebase --continue
+    rbskip = rebase --skip
+    
+    wipe  = clean -fd
+    nuke  = clean -fdx 
+    
+    reb   = rebase --keep-empty --preserve-merges
+    imer  = merge  --no-commit --no-ff --log=10000 --verbose --progress
+    show-alias = config --get-regexp alias
+    
+    ba = branch -a
+    bva = branch -avv   
+    finger = branch --contains
+    wassup = "!f(){ ( \
+                    echo "=== status ==="; \
+                    git status; \
+                    echo "=== pending to push ==="; \
+                    git cherry -v | sed 's|^|  |'; \
+                    git cherry -v | sed 's|^|  |'; \
+                    echo "=== dry run ==="; \
+                    git push --dry-run --verbose --progress; \
+                    echo "=== done ==="; \
+                    ) }; f"
+                    
+    co = checkout 
+    ours = checkout --ours
+    theirs = checkout --theirs
+    
+    cp  = cherry-pick -s --allow-empty --allow-empty-message --keep-redundant-commits -x 
+    cpc = cherry-pick --continue
+    
+    conflict = diff --name-only --diff-filter=U
+    
+    prune-tags = "!f() { ~/.gitutils.sh prune-tags }; f"
+    
+	update = "!g() { ~/.gitutils.sh update ${*}; }; g"
+    
+    get-upstream = "!g() { ~/.gitutils.sh get_upstream ${*}; }; g"
+	
+	pwd = "!g(){ ~/.gitutils.sh pwd_branch; }; g"
+	
+	cd = "!g() { ~/.gitutils.sh cd_branch ${*}; }; g"
+	mk = "!g() { ~/.gitutils.sh mk_branch ${*}; }; g"
+	rollback = "!g() { ~/.gitutils.sh rollback ${*}; }; g"
+	
+	
+	inventory ="!g() { ~/.gitutils.sh inventory;}; g"
+[color]
+        diff = true
+        ui = true
+[rerere]
+    enabled = true
+[core]
+    pager = less -+F -RN
+    editor = c:/windows/gvim.bat
+[log]
+    decorate = no
+    date = iso8601
+    abbrevCommit = true
+    color=yes
+[format]
+    pretty = oneline
+[gc]
+    reflogExpire = never
+    rerereResolved = 360
+    
